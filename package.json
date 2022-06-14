@@ -8,7 +8,7 @@
     "test:ci": "jest --ci"
   },
   "dependencies": {
-    "next": "latest",
+    "next": "^12.1.7-canary.8",
     "react": "^18.1.0",
     "react-dom": "^18.1.0"
   },
