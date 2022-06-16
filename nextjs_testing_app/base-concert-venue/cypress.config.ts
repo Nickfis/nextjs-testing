@@ -1,4 +1,5 @@
 import { defineConfig } from "cypress";
+import { resetDb } from "./__tests__/__mocks__/db/utils/reset-db";
 
 export default defineConfig({
   e2e: {
@@ -9,6 +10,9 @@ export default defineConfig({
     ],
     setupNodeEvents(on, config) {
       // implement node event listeners here
+      on("task", {
+        "db:reset": () => resetDb().then(() => null),
+      });
     },
   },
 
