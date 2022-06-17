@@ -5,14 +5,22 @@ import { addBand } from "@/lib/features/bands/queries";
 
 const handler = createHandler();
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
+  console.log("I am getting hit bruh");
   // an endpoint to demonstrate on-demand ISR revalidation
   //   https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration#using-on-demand-revalidation
   // in an actual app, this would have a UI, and it would need authorization
   //   to check the user is authorized to make changes to bands
   // in this app, this endpoint will be hit by testing directly to test on-demand ISR revalidation
 
+  console.log("Revalidation secrets are the same");
+  console.log(req.query.secret !== process.env.REVALIDATION_SECRET);
   // Check for secret to confirm this is a valid request
   if (req.query.secret !== process.env.REVALIDATION_SECRET) {
+    console.log(
+      "Process env validation secret",
+      process.env.REVALIDATION_SECRET
+    );
+    console.log("Request secret", req.query.secret);
     return res.status(401).json({ message: "Invalid revalidation token" });
   }
 
