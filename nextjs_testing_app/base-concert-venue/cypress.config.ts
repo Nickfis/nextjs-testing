@@ -10,11 +10,16 @@ export default defineConfig({
       "cypress/integration/**/*.{js,jsx,ts,tsx}",
     ],
     setupNodeEvents(on, config) {
+      // use environment variables in cypress config
+      // to then use in test:
+      // Cypress.env("REVALIDATION_SECRET")
+      config.env.REVALIDATION_SECRET = process.env.REVALIDATION_SECRET;
       // implement node event listeners here
       on("task", {
         "db:reset": () => resetDb().then(() => null),
         addBand: (newBand) => addBand(newBand).then(() => null),
       });
+      return config;
     },
   },
 
