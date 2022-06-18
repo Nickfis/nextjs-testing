@@ -75,3 +75,12 @@ it("should give you a failure when using wrong credentials", () => {
 
   cy.url().should("be.equal", `${Cypress.config("baseUrl")}/user`);
 });
+
+it("redirects to sign-in for protected pages", () => {
+  cy.fixture("protected-pages.json").then((urls) => {
+    urls.forEach((url) => {
+      cy.visit(url);
+      cy.findByLabelText(/email address/i).should("exist");
+    });
+  });
+});
