@@ -84,3 +84,33 @@ it("redirects to sign-in for protected pages", () => {
     });
   });
 });
+
+it("does not show the sign-in page when already signed in", () => {
+  cy.task("db:reset").signIn(
+    Cypress.env("TEST_USER_EMAIL"),
+    Cypress.env("TEST_PASSWORD")
+  );
+
+  cy.visit("/reservations/0");
+
+  cy.findByRole("heading", { name: /sign in to your account/i }).should(
+    "not.exist"
+  );
+
+  cy.findByRole("button", { name: /purchase/i }).should("exist");
+});
+
+// sign in to page
+// go to /user page
+// find and click the purchase more tickets buton
+// check that we're ending up on upcoming shows site
+it("purchase more tickets button works on authenticated user page", () => {
+  cy.task("db:reset").signIn(
+    Cypress.env("TEST_USER_EMAIL"),
+    Cypress.env("TEST_PASSWORD")
+  );
+
+  cy.visit("/user");
+  cy.findByText(/purchase more tickets/i).click();
+  cy.url().should("be.equal", `${Cypress.config("baseUrl")}/shows`);
+});

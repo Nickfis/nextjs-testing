@@ -7,5 +7,6 @@ declare namespace Cypress {
      * @example cy.resetDbAndIsrCache()
      */
     resetDbAndIsrCache(): Chainable<null>;
+    signIn(email: string, password: string): Chainable<null>;
   }
 }
