@@ -36,3 +36,16 @@ test("GET /api/shows/[showId] returns the data for the correct show ID", async (
     },
   });
 });
+
+test("POST /api/shows returns 401 if revalidation secret is not correct", async () => {
+  await testApiHandler({
+    handler: showsHandler,
+    paramsPatcher: (params) => {
+      params.queryStringURLParams = { secret: "Not the real secret" };
+    },
+    test: async ({ fetch }) => {
+      const res = await fetch({ method: "POST" });
+      expect(res.status).toEqual(401);
+    },
+  });
+});
